@@ -1,0 +1,18 @@
+services:
+  ofd-to-pdf:
+    image: ghcr.io/wangyanzu/ofd-to-pdf:latest
+    pull_policy: always
+    ports:
+      - "${OFD_BIND:-127.0.0.1}:${OFD_PORT:-8080}:8080"
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:mode=1777,size=2147483648
+    environment:
+      HOME: /tmp
+      XDG_CACHE_HOME: /tmp/.cache
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
